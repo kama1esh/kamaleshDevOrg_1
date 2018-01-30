@@ -1,0 +1,12 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false">
+    
+     <!-- Add static resources to page's <head> -->
+    <apex:includeScript value="{! $Resource.vfimagetest }"/>
+    <div>
+        <!-- Display images directly referenced in a static resource -->
+        <h3>Images</h3>
+        <p> 
+           <apex:image url="{!URLFOR($Resource.vfimagetest, 'cats/kitten1.jpg')}"/>
+        </p>
+    </div>
+</apex:page>

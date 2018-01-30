@@ -1,0 +1,20 @@
+<apex:page controller="DisplayAccountBS" >
+    <apex:form >
+    <apex:pageBlock title="Search Accounts">
+       <apex:pageBlockSection >
+        <apex:inputText label="Search" title="search" value="{!searchword}"/>
+             </apex:pageBlockSection>
+        <apex:pageBlockButtons >
+            <apex:commandButton action="{!Search}" value="search" />
+        </apex:pageBlockButtons>
+       
+      
+    </apex:pageBlock>
+        <apex:pageBlock >
+            <apex:pageBlockSection title="Search Results">
+           <apex:outputText value="{!accountList}"></apex:outputText>
+        </apex:pageBlockSection>
+        </apex:pageBlock>
+         
+        </apex:form>
+</apex:page>

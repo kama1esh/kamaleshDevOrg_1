@@ -1,0 +1,107 @@
+<apex:page standardController="Account" extensions="CompleteAccounts" title="Applications" applyBodyTag="false"  tabStyle="Application__c" showHeader="false">
+<head>
+  <title>Bootstrap Example</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+    <style>
+        .drafttb2 {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+
+.coldata{
+    background-color: #4CAF50;
+    color: white;
+}
+    </style>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span> 
+      </button>
+    <div class="collapse navbar-collapse" id="myNavbar">
+    <ul class="nav navbar-nav">
+      <li><a href="#">Home</a></li>
+      <li><a href="https://www.google.com" target="iframe_a">Application</a></li>
+      <li><a href="#">Reports</a></li>
+	  <li><a href="#">Forms</a></li>
+	  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Expand/Collapse<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">LOGIN</a></li>
+          <li><a href="#">SIGN UP</a></li>
+        </ul>
+      </li>
+    </ul>
+      </div>
+  </div>
+</nav>
+
+
+<!--
+    <head>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" ></script>
+        <style>
+            .container-fluid {
+            margin-top: 10px;
+            }
+        </style>
+    </head>
+  
+         -->
+      
+    &nbsp;
+    &nbsp;
+    &nbsp;
+    
+            <apex:pageBlock id="details" title="Account Details" >
+            <apex:form >
+            <apex:actionFunction name="refreshAccountPageSize" action="{!refreshAccountPageSize}" status="fetchAccountStatus" reRender="drafttbl,DraftPagingPanel"/>
+            <apex:pageBlockTable value="{!AccRecords}" var="AccountVar" align="center" id="drafttbl" rendered="{!accRec.resultsize>0}" columnsWidth="5%,25%,10%,10%,50%" styleClass="drafttb2">  
+                <apex:column headerValue="Account ID" value="{!AccountVar.Id}" headerClass="colHeadr"  styleClass="coldata"/>
+                <apex:column value="{!AccountVar.Name}" headerClass="colHeadr" styleClass="coldata" />  
+                <apex:column value="{!AccountVar.Website }" headerClass="colHeadr" styleClass="coldata"/>
+                <apex:outputText value="No records to dislay." rendered="{!accRec.resultsize=0}" />
+            </apex:pageBlockTable>
+            
+            <apex:panelGrid columns="8" > 
+                <apex:selectList value="{!accSize}" multiselect="false" size="1" onchange="refreshAccountPageSize();">
+                    <apex:selectOptions value="{!accPaginationSizeOptions}"/>
+                </apex:selectList>
+                
+                <apex:outputPanel id="DraftPagingPanel" rendered="{!accRec.resultsize>0}">                      
+                    <apex:commandButton status="fetchDrftStatus" id="first" reRender="drafttbl,DraftPagingPanel" value="First" action="{!accRec.first}" disabled="{!!accRec.hasPrevious}" title="First Page"/> 
+                    <apex:commandButton status="fetchDrftStatus" reRender="drafttbl,DraftPagingPanel" value="Previous" action="{!accRec.previous}" disabled="{!!accRec.hasPrevious}" title="Previous Page"/> 
+                    <apex:commandButton status="fetchDrftStatus" reRender="drafttbl,DraftPagingPanel,first" value="Next" action="{!accRec.next}" disabled="{!!accRec.hasNext}" title="Next Page"/> 
+                    <apex:commandButton status="fetchDrftStatus" reRender="drafttbl,DraftPagingPanel" value="Last" action="{!accRec.last}" disabled="{!!accRec.hasNext}" title="Last Page"/>
+                    &nbsp;
+                    <apex:outputText >{!IF(totalAccountRecords>0,(accRec.pageNumber * accSize)+1-accSize,0)}-{!IF((accRec.pageNumber * accSize)>totalAccountRecords, totalAccountRecords,
+                        (accRec.pageNumber * accSize))} of {!totalAccountRecords}
+                    </apex:outputText>
+                </apex:outputPanel>
+                
+                <apex:outputPanel >                      
+                    <apex:actionStatus id="fetchDrftStatus" >
+                        <apex:facet name="start" >
+                            <img src="/img/loading.gif" />                    
+                        </apex:facet>
+                    </apex:actionStatus>
+                </apex:outputPanel>
+            </apex:panelGrid> 
+        </apex:form>
+        </apex:pageBlock>
+    
+                
+    </body>
+    
+    
+</apex:page>

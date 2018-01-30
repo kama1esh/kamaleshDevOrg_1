@@ -1,0 +1,9 @@
+<apex:page >
+    
+    <!-- Add the static resource to page's <head> -->
+    
+    <apex:iframe src="{!($Resource.testsample)}"/>
+    
+   
+    
+</apex:page>

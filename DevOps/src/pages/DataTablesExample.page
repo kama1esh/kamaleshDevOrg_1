@@ -1,0 +1,74 @@
+<apex:page Controller="DataTableExampleController" readOnly="true">
+    <head>
+        <script src="https://code.jquery.com/jquery-1.12.4.js" />
+        <script src="https:../../media/js/jquery.dataTables.js" />
+        <script src="https:../../media/js/dataTables.bootstrap.js" />
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" />  
+        <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" /> 
+        <script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js" />  
+    	<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <link href="https://cdn.datatables.net/select/1.2.3/css/select.dataTables.min.css" rel="stylesheet" />
+        <script>
+            j$ = jQuery.noConflict();
+            j$(document).ready( function () {
+                var contactTable = j$('[id$="contacttable"]').DataTable({
+                    columnDefs: [ {
+            				 orderable: false,
+           					 className: 'select-checkbox',
+            				 targets:   0
+       			 } ],
+       			   select: {
+           					 style:    'mul',
+            				 selector: 'td:first-child'
+       				 },
+                    order: [[2, 'asc']],
+                    
+                    initComplete: function() {
+                        var api = this.api();
+                        var select = j$('[id$=accountSelect]');
+                        api.column(0).data().unique().sort().each( function ( d, j ) {
+                            select.append( '<option value="'+d+'">'+d+'</option>' )
+                        } );   
+                    }
+                });
+                
+                
+
+                j$('[id$=accountSelect]').change(function() {
+                    var val = j$.fn.dataTable.util.escapeRegex(
+                        j$(this).val()
+                    );
+                    contactTable.column(0)
+                        .search( val == 'All' ? '' : '^'+val+'$', true, false )
+                        .draw();
+                });
+            });
+        </script>
+    </head>
+    <body>
+       <!--  <select id="accountSelect"><option value="All">All</option></select> -->
+		
+        <table id="contacttable" class="display">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Account</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <apex:repeat value="{!contactList}" var="contact">
+                    <tr>
+                        <td></td>
+                        <td><apex:outputlink value="/{!contact.id}" > {!contact.Account.Name}</apex:outputlink></td>
+                        <td>{!contact.FirstName}</td>
+                        <td>{!contact.LastName}</td>
+                        <td>{!contact.Phone}</td>
+                    </tr>
+                </apex:repeat>
+            </tbody>
+        </table>
+    </body>
+</apex:page>

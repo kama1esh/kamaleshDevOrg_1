@@ -1,0 +1,64 @@
+<apex:page standardController="Account" extensions="CompleteAccounts" title="Applications" applyBodyTag="false"  tabStyle="Application__c">
+    
+    <apex:pageBlock id="details" title="Account Details"  >
+   <apex:form >
+            <apex:actionFunction name="refreshAccountPageSize" action="{!refreshAccountPageSize}" status="fetchAccountStatus" reRender="drafttbl,DraftPagingPanel"/>
+        <apex:tabPanel switchType="client" selectedTab="name2" id="theTabPanel">
+        <apex:tab label="Home" name="Home" id="Hometab" onclick="drafttbl">
+             
+            <apex:pageBlockTable value="{!AccRecords}"  var="AccountVar" align="center" id="drafttbl" rendered="{!accRec.resultsize>0}" columnsWidth="5%,25%,10%,10%,50%">
+                <apex:column >
+                   <apex:selectRadio layout="PageDirection" >
+  						<apex:selectOptions value="{!items}" />
+				</apex:selectRadio>
+                </apex:column>
+        <!--        <apex:column headerValue="Account ID" value="{!AccountVar.Id}" headerClass="colHeadr"  />
+                <apex:column value="{!AccountVar.Name}" headerClass="colHeadr" />  
+                <apex:column value="{!AccountVar.Website }" headerClass="colHeadr"/> -->
+                <apex:outputText value="No records to dislay." rendered="{!accRec.resultsize=0}" />
+            </apex:pageBlockTable>
+            
+            <apex:panelGrid columns="8" > 
+                <apex:selectList value="{!accSize}" multiselect="false" size="1" onchange="refreshAccountPageSize();">
+                    <apex:selectOptions value="{!accPaginationSizeOptions}"/>
+                </apex:selectList>
+                
+                <apex:outputPanel id="DraftPagingPanel" rendered="{!accRec.resultsize>0}">                      
+                    <apex:commandButton status="fetchDrftStatus" id="first" reRender="drafttbl,DraftPagingPanel" value="First" action="{!accRec.first}" disabled="{!!accRec.hasPrevious}" title="First Page"/> 
+                    <apex:commandButton status="fetchDrftStatus" reRender="drafttbl,DraftPagingPanel" value="Previous" action="{!accRec.previous}" disabled="{!!accRec.hasPrevious}" title="Previous Page"/> 
+                    <apex:commandButton status="fetchDrftStatus" reRender="drafttbl,DraftPagingPanel,first" value="Next" action="{!accRec.next}" disabled="{!!accRec.hasNext}" title="Next Page"/> 
+                    <apex:commandButton status="fetchDrftStatus" reRender="drafttbl,DraftPagingPanel" value="Last" action="{!accRec.last}" disabled="{!!accRec.hasNext}" title="Last Page"/>
+                    &nbsp;
+                    <apex:outputText >{!IF(totalAccountRecords>0,(accRec.pageNumber * accSize)+1-accSize,0)}-{!IF((accRec.pageNumber * accSize)>totalAccountRecords, totalAccountRecords,
+                        (accRec.pageNumber * accSize))} of {!totalAccountRecords}
+                    </apex:outputText>
+                </apex:outputPanel>
+                
+                <apex:outputPanel >                      
+                    <apex:actionStatus id="fetchDrftStatus" >
+                        <apex:facet name="start" >
+                            <img src="/img/loading.gif" />                    
+                        </apex:facet>
+                    </apex:actionStatus>
+                </apex:outputPanel>
+            </apex:panelGrid> 
+            </apex:tab>
+            <apex:tab label="one" name="name1" id="tabone">
+            <apex:pageBlockTable value="{!AccRecords}"  var="AccountVar" align="center" id="drafttbl2" rendered="{!accRec.resultsize>0}" columnsWidth="5%,25%,10%,10%,50%">
+                <apex:column value="{!AccountVar.Name}" headerClass="colHeadr" />  
+                <apex:column value="{!AccountVar.Website }" headerClass="colHeadr"/>
+                <apex:outputText value="No records to dislay." rendered="{!accRec.resultsize=0}" />
+            </apex:pageBlockTable>
+          </apex:tab>
+        <apex:tab label="Two" name="name2" id="tabTwo">content for tab two</apex:tab>
+        </apex:tabPanel>
+        </apex:form>
+        </apex:pageBlock>
+    <!--
+    <apex:tabPanel switchType="client" selectedTab="name2" id="theTabPanel">
+        <apex:tab label="Home" name="Home" id="Hometab" onclick="drafttbl">Home</apex:tab>
+   		<apex:tab label="one" name="name1" id="tabone">content for tab one</apex:tab>
+        <apex:tab label="Two" name="name2" id="tabTwo">content for tab two</apex:tab>
+    </apex:tabPanel>
+-->
+</apex:page>

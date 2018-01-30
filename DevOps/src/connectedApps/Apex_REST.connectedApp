@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>kamaleshjain236@gmail.com</contactEmail>
+    <description>connected app for testing cURL apex web services</description>
+    <label>Apex REST</label>
+    <oauthConfig>
+        <callbackUrl>https://login.salesforce.com/services/oauth2/token</callbackUrl>
+        <consumerKey>3MVG9ZL0ppGP5UrB5Xvs4e2orGNNL7f75h16Qq2Pxc7D.vEB6VVJWXGY3dKNSnIATAWfBWXmg7hlzOOnjcPYK</consumerKey>
+        <scopes>Api</scopes>
+    </oauthConfig>
+</ConnectedApp>
